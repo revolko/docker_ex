@@ -36,8 +36,20 @@ defmodule DockerEx.Client do
 
   defp do_recv(socket, {:ok, :http_eoh}, resp) do
     case :proplists.get_value(:"Transfer-Encoding", resp.headers) do
-      "chunked" -> read_chunked_body(socket, [])
-      :undefined -> {:error, "Not implemented -- Body is not chunked."}
+      "chunked" ->
+        read_chunked_body(socket, [])
+
+      :undefined ->
+        case :proplists.get_value(:"Content-Length", resp.headers) do
+          :undefined ->
+            {:error, "Missing Transfer-Encoding and Content-Length"}
+
+          content_length ->
+            bytes_to_read = String.to_integer(content_length)
+            # TODO: figure out why this is needed
+            :inet.setopts(socket, [{:packet, :raw}])
+            :gen_tcp.recv(socket, bytes_to_read)
+        end
     end
   end
 
