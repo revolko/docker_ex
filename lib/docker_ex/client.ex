@@ -68,7 +68,7 @@ defmodule DockerEx.Client do
       :undefined ->
         case :proplists.get_value(:"Content-Length", resp.headers) do
           :undefined ->
-            {:error, "Missing Transfer-Encoding and Content-Length"}
+            {:ok, ""}
 
           content_length ->
             bytes_to_read = String.to_integer(content_length)
