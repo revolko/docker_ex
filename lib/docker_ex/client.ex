@@ -24,10 +24,36 @@ defmodule DockerEx.Client do
     Jason.decode(body)
   end
 
+  def post(path, body) do
+    {:ok, socket} =
+      :gen_tcp.connect({:local, "/var/run/docker.sock"}, 0, [
+        :binary,
+        {:active, false},
+        {:packet, :http_bin}
+      ])
+
+    :gen_tcp.send(
+      socket,
+      "POST #{path} HTTP/1.1\n" <>
+        "Host: #{:net_adm.localhost()}\n" <>
+        "Content-Type: application/json\n" <>
+        "Content-Length: #{byte_size(body)}\n" <>
+        "\n#{body}\n"
+    )
+
+    {:ok, body} = do_recv(socket)
+    Jason.decode(body)
+  end
+
   defp do_recv(socket), do: do_recv(socket, :gen_tcp.recv(socket, 0), %DockerEx.Client{})
 
-  defp do_recv(socket, {:ok, {:http_response, {1, 1}, 200, "OK"}}, resp) do
+  defp do_recv(socket, {:ok, {:http_response, {1, 1}, status, _}}, resp)
+       when status >= 200 and status < 400 do
     do_recv(socket, :gen_tcp.recv(socket, 0), resp)
+  end
+
+  defp do_recv(_socket, {:ok, {:http_response, {1, 1}, status, e}}, _resp) when status >= 400 do
+    {:error, "#{status} #{e}"}
   end
 
   defp do_recv(socket, {:ok, {:http_header, _, header, _, value}}, resp) do
