@@ -20,4 +20,10 @@ defmodule DockerEx.Containers do
 
     Client.post("/containers/create?#{query_parameters}", Jason.encode!(create_body))
   end
+
+  def delete_container(id, opts \\ []) do
+    query_parameters = Utils.get_query_parameters(opts)
+
+    Client.delete("/containers/#{id}?#{query_parameters}")
+  end
 end

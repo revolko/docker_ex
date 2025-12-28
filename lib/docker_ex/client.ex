@@ -45,6 +45,22 @@ defmodule DockerEx.Client do
     Jason.decode(body)
   end
 
+  def delete(path) do
+    {:ok, socket} =
+      :gen_tcp.connect({:local, "/var/run/docker.sock"}, 0, [
+        :binary,
+        {:active, false},
+        {:packet, :http_bin}
+      ])
+
+    :gen_tcp.send(
+      socket,
+      "DELETE #{path} HTTP/1.1\nHost: #{:net_adm.localhost()}\n\n"
+    )
+
+    do_recv(socket)
+  end
+
   defp do_recv(socket), do: do_recv(socket, :gen_tcp.recv(socket, 0), %DockerEx.Client{})
 
   defp do_recv(socket, {:ok, {:http_response, {1, 1}, status, _}}, resp)
