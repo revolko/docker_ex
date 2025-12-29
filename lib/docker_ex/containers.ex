@@ -4,6 +4,7 @@ defmodule DockerEx.Containers do
   """
   alias DockerEx.Client
   alias DockerEx.Utils
+  alias DockerEx.Containers.CreateContainer
 
   def get_containers(opts \\ []) do
     query_parameters = Utils.get_query_parameters(opts)
@@ -11,12 +12,8 @@ defmodule DockerEx.Containers do
     Client.get("/containers/json?#{query_parameters}")
   end
 
-  def create_container(image, opts \\ []) do
+  def create_container(create_body = %CreateContainer{}, opts \\ []) do
     query_parameters = Utils.get_query_parameters(opts)
-
-    create_body = %{
-      Image: image
-    }
 
     Client.post("/containers/create?#{query_parameters}", Jason.encode!(create_body))
   end
