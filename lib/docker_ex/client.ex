@@ -41,8 +41,12 @@ defmodule DockerEx.Client do
         "\n#{body}\n"
     )
 
-    {:ok, body} = do_recv(socket)
-    Jason.decode(body)
+    with {:ok, body} <- do_recv(socket) do
+      case body do
+        "" -> {:ok, ""}
+        resp -> Jason.decode(resp)
+      end
+    end
   end
 
   def delete(path) do
