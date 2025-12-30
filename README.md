@@ -1,21 +1,20 @@
 # DockerEx
 
-**TODO: Add description**
+Docker engine SDK implemented in Elixir.
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `docker_ex` to your list of dependencies in `mix.exs`:
+This package is not yet availalbe in `hex`. Thus, the package can be installed
+by adding `docker_ex` to your list of dependencies in `mix.exs` using `:git` reference:
 
 ```elixir
 def deps do
   [
-    {:docker_ex, "~> 0.1.0"}
+      {:docker_ex, git: "https://github.com/revolko/docker_ex.git"}
   ]
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/docker_ex>.
-
+# WIP
+Note, this package is not production ready and far from being done. All contributions
+are welcome.
