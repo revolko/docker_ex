@@ -6,7 +6,7 @@ defmodule DockerEx.Containers do
   alias DockerEx.Utils
   alias DockerEx.Containers.CreateContainer
 
-  def get_containers(opts \\ []) do
+  def list_containers(opts \\ []) do
     query_parameters = Utils.get_query_parameters(opts)
 
     Client.get("/containers/json?#{query_parameters}")
