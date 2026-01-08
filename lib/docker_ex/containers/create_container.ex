@@ -3,7 +3,7 @@ defmodule DockerEx.Containers.CreateContainer do
   The body of the POST /containers/create endpoint
   """
 
-  @derive {Jason.Encoder, only: [:image, :exposed_ports, :host_config]}
-  @enforce_keys [:image]
-  defstruct [:image, exposed_ports: %{}, host_config: %{}]
+  @derive {Jason.Encoder, only: [:Image, :ExposedPorts, :HostConfig, :NetworkingConfig]}
+  @enforce_keys [:Image]
+  defstruct [:Image, ExposedPorts: %{}, HostConfig: %{}, NetworkingConfig: %{}]
 end
