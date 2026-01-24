@@ -24,7 +24,7 @@ defmodule DockerEx.Client do
     Jason.decode(body)
   end
 
-  def post(path, body) do
+  def post(path, body, ignore_response_body \\ false) do
     {:ok, socket} =
       :gen_tcp.connect({:local, "/var/run/docker.sock"}, 0, [
         :binary,
@@ -43,8 +43,15 @@ defmodule DockerEx.Client do
 
     with {:ok, body} <- do_recv(socket) do
       case body do
-        "" -> {:ok, ""}
-        resp -> Jason.decode(resp)
+        "" ->
+          {:ok, ""}
+
+        resp ->
+          if ignore_response_body do
+            {:ok, ""}
+          else
+            Jason.decode(resp)
+          end
       end
     end
   end
