@@ -79,8 +79,10 @@ defmodule DockerEx.Client do
     do_recv(socket, :gen_tcp.recv(socket, 0), resp)
   end
 
-  defp do_recv(_socket, {:ok, {:http_response, {1, 1}, status, e}}, _resp) when status >= 400 do
-    {:error, "#{status} #{e}"}
+  defp do_recv(socket, {:ok, {:http_response, {1, 1}, status, http_error}}, _resp)
+       when status >= 400 do
+    {:ok, error_details} = do_recv(socket)
+    {:error, {status, http_error, Jason.decode!(error_details)}}
   end
 
   defp do_recv(socket, {:ok, {:http_header, _, header, _, value}}, resp) do
