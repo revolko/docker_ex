@@ -21,25 +21,13 @@ defmodule DockerEx.Client do
     )
 
     {:ok, body} = do_recv(socket)
-    Jason.decode(body)
+    # if chunked transforms list to string otherwise does nothing
+    raw_body = :erlang.iolist_to_binary(body)
+    Jason.decode(raw_body)
   end
 
-  def post(path, body, ignore_response_body \\ false) do
-    {:ok, socket} =
-      :gen_tcp.connect({:local, "/var/run/docker.sock"}, 0, [
-        :binary,
-        {:active, false},
-        {:packet, :http_bin}
-      ])
-
-    :gen_tcp.send(
-      socket,
-      "POST #{path} HTTP/1.1\n" <>
-        "Host: #{:net_adm.localhost()}\n" <>
-        "Content-Type: application/json\n" <>
-        "Content-Length: #{byte_size(body)}\n" <>
-        "\n#{body}\n"
-    )
+  def post(path, body) do
+    {:ok, socket} = _post(path, body)
 
     with {:ok, body} <- do_recv(socket) do
       case body do
@@ -47,12 +35,18 @@ defmodule DockerEx.Client do
           {:ok, ""}
 
         resp ->
-          if ignore_response_body do
-            {:ok, ""}
-          else
-            Jason.decode(resp)
-          end
+          raw_resp = :erlang.iolist_to_binary(resp)
+          Jason.decode(raw_resp)
       end
+    end
+  end
+
+  def post_streamed(path, body) do
+    {:ok, socket} = _post(path, body)
+
+    with {:ok, body} <- do_recv(socket) do
+      decoded_body = Enum.map(body, fn item -> Jason.decode!(item) end)
+      {:ok, decoded_body}
     end
   end
 
@@ -116,7 +110,7 @@ defmodule DockerEx.Client do
         chunk_length = String.trim_trailing(chunk_length, "\r\n") |> String.to_integer(16)
 
         if chunk_length == 0 do
-          {:ok, :erlang.iolist_to_binary(Enum.reverse(acc))}
+          {:ok, Enum.reverse(acc)}
         else
           :inet.setopts(socket, [{:packet, :raw}])
           {:ok, data} = :gen_tcp.recv(socket, chunk_length)
@@ -128,5 +122,26 @@ defmodule DockerEx.Client do
       other ->
         {:error, other}
     end
+  end
+
+  # HELPERS / PRIVATE FUNCTIONS
+
+  defp _post(path, body) do
+    with {:ok, socket} <-
+           :gen_tcp.connect({:local, "/var/run/docker.sock"}, 0, [
+             :binary,
+             {:active, false},
+             {:packet, :http_bin}
+           ]),
+         :ok <-
+           :gen_tcp.send(
+             socket,
+             "POST #{path} HTTP/1.1\n" <>
+               "Host: #{:net_adm.localhost()}\n" <>
+               "Content-Type: application/json\n" <>
+               "Content-Length: #{byte_size(body)}\n" <>
+               "\n#{body}\n"
+           ),
+         do: {:ok, socket}
   end
 end

@@ -32,16 +32,10 @@ defmodule DockerEx.Images do
   def build_image(remote_url, name, tag \\ "latest") do
     # build accepts only raw dockerfile or git repo url (ending with git)
     # this struggles with inner Dockerfiles using relatives path inside the repo
-    Client.post(
-      "/build?remote=#{remote_url}&t=#{name}:#{tag}",
-      "",
-      ignore_response_body: true
-    )
+    Client.post_streamed("/build?remote=#{remote_url}&t=#{name}:#{tag}", "")
   end
 
   def create_image(from_image, tag \\ "latest") do
-    Client.post("/images/create?fromImage=#{from_image}&tag=#{tag}", "",
-      ignore_response_body: true
-    )
+    Client.post_streamed("/images/create?fromImage=#{from_image}&tag=#{tag}", "")
   end
 end
