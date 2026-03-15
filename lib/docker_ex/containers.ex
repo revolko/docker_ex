@@ -7,19 +7,19 @@ defmodule DockerEx.Containers do
   alias DockerEx.Containers.CreateContainer
 
   def list_containers(opts \\ []) do
-    query_parameters = Utils.get_query_parameters(opts)
+    query_parameters = Utils.encode_query([], opts)
 
     Client.get("/containers/json?#{query_parameters}")
   end
 
   def inspect_container(id, opts \\ []) do
-    query_parameters = Utils.get_query_parameters(opts)
+    query_parameters = Utils.encode_query([], opts)
 
     Client.get("/containers/#{id}/json?#{query_parameters}")
   end
 
   def create_container(create_body = %CreateContainer{}, opts \\ []) do
-    query_parameters = Utils.get_query_parameters(opts)
+    query_parameters = Utils.encode_query([], opts)
 
     Client.post("/containers/create?#{query_parameters}", Jason.encode!(create_body))
   end
@@ -29,7 +29,7 @@ defmodule DockerEx.Containers do
   end
 
   def delete_container(id, opts \\ []) do
-    query_parameters = Utils.get_query_parameters(opts)
+    query_parameters = Utils.encode_query([], opts)
 
     Client.delete("/containers/#{id}?#{query_parameters}")
   end
