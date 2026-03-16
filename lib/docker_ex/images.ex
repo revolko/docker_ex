@@ -24,7 +24,9 @@ defmodule DockerEx.Images do
   def list_images(opts \\ []) do
     query_parameters = Utils.encode_query([], opts)
 
-    Client.get("/images/json?#{query_parameters}")
+    "/images/json"
+    |> Utils.maybe_query_params(query_parameters)
+    |> Client.get()
   end
 
   @doc """
@@ -60,7 +62,9 @@ defmodule DockerEx.Images do
 
     # build accepts only raw dockerfile or git repo url (ending with git)
     # this struggles with inner Dockerfiles using relatives path inside the repo
-    Client.post_streamed("/build?#{query_parameters}", "")
+    "/build"
+    |> Utils.maybe_query_params(query_parameters)
+    |> Client.post_streamed("")
   end
 
   @doc """
@@ -88,6 +92,8 @@ defmodule DockerEx.Images do
   def create_image(from_image, opts \\ []) do
     query_parameters = Utils.encode_query([fromImage: from_image], opts)
 
-    Client.post_streamed("/images/create?#{query_parameters}", "")
+    "/images/create"
+    |> Utils.maybe_query_params(query_parameters)
+    |> Client.post_streamed("")
   end
 end

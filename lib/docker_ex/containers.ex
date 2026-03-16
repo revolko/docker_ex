@@ -33,7 +33,9 @@ defmodule DockerEx.Containers do
   def list_containers(opts \\ []) do
     query_parameters = Utils.encode_query([], opts)
 
-    Client.get("/containers/json?#{query_parameters}")
+    "/containers/json"
+    |> Utils.maybe_query_params(query_parameters)
+    |> Client.get()
   end
 
   @doc """
@@ -58,7 +60,9 @@ defmodule DockerEx.Containers do
   def inspect_container(id, opts \\ []) do
     query_parameters = Utils.encode_query([], opts)
 
-    Client.get("/containers/#{id}/json?#{query_parameters}")
+    "/containers/#{id}/json"
+    |> Utils.maybe_query_params(query_parameters)
+    |> Client.get()
   end
 
   @doc """
@@ -87,7 +91,9 @@ defmodule DockerEx.Containers do
   def create_container(create_body = %CreateContainer{}, opts \\ []) do
     query_parameters = Utils.encode_query([], opts)
 
-    Client.post("/containers/create?#{query_parameters}", Jason.encode!(create_body))
+    "/containers/create"
+    |> Utils.maybe_query_params(query_parameters)
+    |> Client.post(Jason.encode!(create_body))
   end
 
   @doc """
@@ -129,6 +135,8 @@ defmodule DockerEx.Containers do
   def delete_container(id, opts \\ []) do
     query_parameters = Utils.encode_query([], opts)
 
-    Client.delete("/containers/#{id}?#{query_parameters}")
+    "/containers/#{id}"
+    |> Utils.maybe_query_params(query_parameters)
+    |> Client.delete()
   end
 end

@@ -25,4 +25,33 @@ defmodule DockerEx.Utils do
     (mandatory ++ Keyword.drop(optional, Keyword.keys(mandatory)))
     |> URI.encode_query(:rfc3986)
   end
+
+  @doc """
+  Adds query parameters to the `path`.
+
+  If there are no query parameters returns the `path`. Useful in
+  combination with `DockerEx.Utils.encode_query/2` function.
+
+  ## Parameters
+
+   * `path` - the endpoint path
+   * `query_params` - query parameters
+
+  ## Examples
+
+    iex> DockerEx.Utils.maybe_query_params("/endpoint", "param=value")
+    "/endpoint?param=value"
+
+    iex> DockerEx.Utils.maybe_query_params("/endpoint", "")
+    "/endpoint"
+
+  """
+  @doc since: "0.1.0"
+  def maybe_query_params(path, "") do
+    path
+  end
+
+  def maybe_query_params(path, query_params) do
+    "#{path}?#{query_params}"
+  end
 end
