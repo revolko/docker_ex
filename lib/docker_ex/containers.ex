@@ -1,15 +1,6 @@
 defmodule DockerEx.Containers do
   @moduledoc """
   SDK for /containers endpoints.
-
-  Some of the functions accept a struct as parameter. The struct
-  parameters are parsed to JSON and put as a request body. Other
-  parameters are encoded as query parameters.
-
-  The main reason for distinguishing request body parameters from query
-  parameters are default parameters. Both, request body and query can
-  have default parameters and if all are put to `opts` parameter it
-  would be complex to parse them out correctly.
   """
   alias DockerEx.Client
   alias DockerEx.Utils
