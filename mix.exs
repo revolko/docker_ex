@@ -1,13 +1,18 @@
 defmodule DockerEx.MixProject do
   use Mix.Project
 
+  @source_url "https://github.com/revolko/docker_ex"
+  @version "0.1.0"
+
   def project do
     [
       app: :docker_ex,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.18",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      description: "Docker engine SDK implemented in Elixir",
+      package: package()
     ]
   end
 
@@ -23,6 +28,16 @@ defmodule DockerEx.MixProject do
     [
       {:jason, "~> 1.4"},
       {:ex_doc, "~> 0.40", only: :dev, runtime: false, warn_if_outdated: true}
+    ]
+  end
+
+  defp package do
+    [
+      maintainers: ["Juraj Paluba"],
+      licenses: ["MIT"],
+      links: %{
+        "GitHub" => @source_url
+      }
     ]
   end
 end
