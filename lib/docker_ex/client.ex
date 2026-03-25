@@ -79,8 +79,11 @@ defmodule DockerEx.Client do
     {:error, {status, http_error, Jason.decode!(error_details)}}
   end
 
-  defp do_recv(socket, {:ok, {:http_header, _, header, _, value}}, resp) do
-    do_recv(socket, :gen_tcp.recv(socket, 0), %DockerEx.Client{resp | headers: [{header, value}]})
+  defp do_recv(socket, {:ok, {:http_header, _, header, _, value}}, %DockerEx.Client{} = resp) do
+    do_recv(socket, :gen_tcp.recv(socket, 0), %DockerEx.Client{
+      resp
+      | headers: [{header, value} | resp.headers]
+    })
   end
 
   defp do_recv(socket, {:ok, :http_eoh}, resp) do
