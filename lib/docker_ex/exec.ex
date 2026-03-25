@@ -18,11 +18,11 @@ defmodule DockerEx.Exec do
 
   ## Examples
 
-    iex> DockerEx.Exec.create_exec_instance("container_name", %DockerEx.Exec.CreateExecInstance{})
-    {:ok,
-     %{
-        "Id" => "exec instance ID"
-     }}
+      iex> DockerEx.Exec.create_exec_instance("container_name", %DockerEx.Exec.CreateExecInstance{})
+      {:ok,
+       %{
+          "Id" => "exec instance ID"
+       }}
 
   """
   @doc since: "0.1.0"
@@ -42,27 +42,27 @@ defmodule DockerEx.Exec do
 
   ## Examples
 
-    iex> DockerEx.Exec.start_exec_instance("exec_instance_id", %DockerEx.Exec.StartExecInstance{})
-    {:ok,
-     %{
-       "CanRemove" => false,
-       "ContainerID" => "b21325d82a48ff78c12d227806730d35f60f03fca861eb39942a5a882e524ebd",
-       "DetachKeys" => "",
-       "ExitCode" => nil,
-       "ID" => "f1ed1f229c676528d13c17f39c01686583f40ca7a80d19a7d211d694bb5d9ef9",
-       "OpenStderr" => false,
-       "OpenStdin" => false,
-       "OpenStdout" => false,
-       "Pid" => 0,
-       "ProcessConfig" => %{
-         "arguments" => ["hello"],
-         "entrypoint" => "echo",
-         "privileged" => false,
-         "tty" => false,
-         "user" => "user:user"
-       },
-       "Running" => false
-     }}
+      iex> DockerEx.Exec.start_exec_instance("exec_instance_id", %DockerEx.Exec.StartExecInstance{})
+      {:ok,
+       %{
+         "CanRemove" => false,
+         "ContainerID" => "b21325d82a48ff78c12d227806730d35f60f03fca861eb39942a5a882e524ebd",
+         "DetachKeys" => "",
+         "ExitCode" => nil,
+         "ID" => "f1ed1f229c676528d13c17f39c01686583f40ca7a80d19a7d211d694bb5d9ef9",
+         "OpenStderr" => false,
+         "OpenStdin" => false,
+         "OpenStdout" => false,
+         "Pid" => 0,
+         "ProcessConfig" => %{
+           "arguments" => ["hello"],
+           "entrypoint" => "echo",
+           "privileged" => false,
+           "tty" => false,
+           "user" => "user:user"
+         },
+         "Running" => false
+       }}
 
   """
   @doc since: "0.1.0"
@@ -79,8 +79,8 @@ defmodule DockerEx.Exec do
 
   ## Examples
 
-    iex> DockerEx.Exec.inspect_exec_instance("exec_instance_id")
-    {:ok, %{ ... }}
+      iex> DockerEx.Exec.inspect_exec_instance("exec_instance_id")
+      {:ok, %{ ... }}
 
   """
   @doc since: "0.1.0"

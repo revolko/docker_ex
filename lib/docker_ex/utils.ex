@@ -17,8 +17,8 @@ defmodule DockerEx.Utils do
 
   ## Examples
 
-    iex> DockerEx.Utils.encode_query([from_image: "image_name"], [from_image: "not_image", size: 1])
-    "from_image=image_name&size=1"
+      iex> DockerEx.Utils.encode_query([from_image: "image_name"], [from_image: "not_image", size: 1])
+      "from_image=image_name&size=1"
   """
   @doc since: "0.1.0"
   def encode_query(mandatory, optional) do
@@ -39,11 +39,11 @@ defmodule DockerEx.Utils do
 
   ## Examples
 
-    iex> DockerEx.Utils.maybe_query_params("/endpoint", "param=value")
-    "/endpoint?param=value"
+      iex> DockerEx.Utils.maybe_query_params("/endpoint", "param=value")
+      "/endpoint?param=value"
 
-    iex> DockerEx.Utils.maybe_query_params("/endpoint", "")
-    "/endpoint"
+      iex> DockerEx.Utils.maybe_query_params("/endpoint", "")
+      "/endpoint"
 
   """
   @doc since: "0.1.0"

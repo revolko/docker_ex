@@ -16,8 +16,8 @@ defmodule DockerEx.Containers do
 
   ## Examples
 
-    iex> DockerEx.Containers.list_containers()
-    {:ok, [{ ... }]}
+      iex> DockerEx.Containers.list_containers()
+      {:ok, [{ ... }]}
 
   """
   @doc since: "0.1.0"
@@ -43,8 +43,8 @@ defmodule DockerEx.Containers do
 
   ## Examples
 
-    iex> DockerEx.Containers.inspect_container("container_id")
-    {:ok, %{ ... }}
+      iex> DockerEx.Containers.inspect_container("container_id")
+      {:ok, %{ ... }}
 
   """
   @doc since: "0.1.0"
@@ -70,12 +70,12 @@ defmodule DockerEx.Containers do
 
   ## Examples
 
-    iex> DockerEx.Containers.create_container(%CreateContainer{}, name: "container_name")
-    {:ok,
-     %{
-       "Id" => "container hash id",
-       "Warnings" => []
-     }}
+      iex> DockerEx.Containers.create_container(%CreateContainer{}, name: "container_name")
+      {:ok,
+       %{
+         "Id" => "container hash id",
+         "Warnings" => []
+       }}
 
   """
   @doc since: "0.1.0"
@@ -96,8 +96,8 @@ defmodule DockerEx.Containers do
 
   ## Examples
 
-    iex> DockerEx.Containers.start_container("container_name")
-    {:ok, ""}
+      iex> DockerEx.Containers.start_container("container_name")
+      {:ok, ""}
   """
   @doc since: "0.1.0"
   def start_container(id) do
@@ -118,8 +118,8 @@ defmodule DockerEx.Containers do
 
   ## Examples
 
-    iex> DockerEx.Containers.delete_container("test_cont")
-    {:ok, ""}
+      iex> DockerEx.Containers.delete_container("test_cont")
+      {:ok, ""}
 
   """
   @doc since: "0.1.0"

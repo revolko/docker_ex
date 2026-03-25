@@ -16,8 +16,8 @@ defmodule DockerEx.Images do
 
   ## Examples
 
-    iex> DockerEx.Images.list_images()
-    {:ok, [{ ... }]}
+      iex> DockerEx.Images.list_images()
+      {:ok, [{ ... }]}
 
   """
   @doc since: "0.1.0"
@@ -52,8 +52,8 @@ defmodule DockerEx.Images do
 
   ## Examples
 
-    iex> DockerEx.Images.build_image("https://github.com/revolko/vegetation.git", "vegetation")
-    {:ok, [{ ... }]}
+      iex> DockerEx.Images.build_image("https://github.com/revolko/vegetation.git", "vegetation")
+      {:ok, [{ ... }]}
 
   """
   @doc since: "0.1.0"
@@ -84,8 +84,8 @@ defmodule DockerEx.Images do
 
   ## Examples
 
-    iex> DockerEx.Images.create_image("fedora")
-    {:ok, [{ ... }]}
+      iex> DockerEx.Images.create_image("fedora")
+      {:ok, [{ ... }]}
 
   """
   @doc since: "0.1.0"
