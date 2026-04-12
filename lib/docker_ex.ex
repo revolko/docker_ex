@@ -30,3 +30,20 @@ defmodule DockerEx do
   Note, query parameters are properly encoded according to [RFC 3986](https://datatracker.ietf.org/doc/html/rfc3986)
   """
 end
+
+defmodule DockerEx.Error do
+  @moduledoc """
+  Generic DockerEx error struct.
+  """
+
+  defexception [:message]
+  @type t :: %__MODULE__{message: String.t()}
+
+  def new(%Jason.EncodeError{} = error) do
+    %__MODULE__{message: "JSON encode error: #{error.message}"}
+  end
+
+  def new(error) do
+    %__MODULE__{message: "DockerEx error: #{inspect(error)}"}
+  end
+end
